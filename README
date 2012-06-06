@@ -1,0 +1,11 @@
+PyAdmin aims to be an easy and thin alternative to PHPMyAdmin.
+It is written in Python and the graphic is realized through wxPython libraries.
+It was born as a school project and has been realized by Panzeri Mattia and Locatelli Matteo 
+for the high school final graduating exam.
+
+TO DO:
+  - Code and Graphic Improvements
+  - Import/Export Dialog
+  - Ecc..
+
+Any help or suggestion is really appreciated.
