@@ -35,19 +35,19 @@ class MainFrame(wx.Frame):
 
         # Insert Toolbar
         self.toolbar = self.CreateToolBar()
-        self.cdbtool = self.toolbar.AddLabelTool(wx.ID_OK, 'Connettiti', images.database_connect.GetBitmap())
-        rdbtool = self.toolbar.AddLabelTool(wx.ID_REFRESH, 'Aggiorna Database', images.database_refresh.GetBitmap())
+        self.cdbtool = self.toolbar.AddLabelTool(wx.ID_OK, 'Connettiti', images.database_connect.GetBitmap(), shortHelp='Connetti')
+        rdbtool = self.toolbar.AddLabelTool(wx.ID_REFRESH, 'Aggiorna Database', images.database_refresh.GetBitmap(), shortHelp='Aggiorna Database')
         self.toolbar.AddSeparator()
-        ndbtool = self.toolbar.AddLabelTool(wx.ID_NEW, 'Aggiungi Database', images.database_add.GetBitmap())
-        ddbtool = self.toolbar.AddLabelTool(wx.ID_CANCEL, 'Rimuovi Database', images.database_delete.GetBitmap())
+        ndbtool = self.toolbar.AddLabelTool(wx.ID_NEW, 'Aggiungi Database', images.database_add.GetBitmap(), shortHelp='Aggiungi Database')
+        ddbtool = self.toolbar.AddLabelTool(wx.ID_CANCEL, 'Rimuovi Database', images.database_delete.GetBitmap(), shortHelp='Rimuovi Database')
         self.toolbar.AddSeparator()
-        ntbltool = self.toolbar.AddLabelTool(wx.ID_ADD, 'Aggiungi Tabella', images.table_add.GetBitmap())
-        wtbltool = self.toolbar.AddLabelTool(wx.ID_VIEW_LIST, 'Visualizza Tabella', images.table_magnify.GetBitmap())
-        dtbltool = self.toolbar.AddLabelTool(wx.ID_DELETE, 'Rimuovi Tabella', images.table_delete.GetBitmap())
+        ntbltool = self.toolbar.AddLabelTool(wx.ID_ADD, 'Aggiungi Tabella', images.table_add.GetBitmap(), shortHelp='Aggiungi Tabella')
+        wtbltool = self.toolbar.AddLabelTool(wx.ID_VIEW_LIST, 'Visualizza Tabella', images.table_magnify.GetBitmap(), shortHelp='Visualizza/Modifica Tabella')
+        dtbltool = self.toolbar.AddLabelTool(wx.ID_DELETE, 'Rimuovi Tabella', images.table_delete.GetBitmap(), shortHelp='Rimuovi Tabella')
         self.toolbar.AddSeparator()
 ##        sqltool = self.toolbar.AddLabelTool(wx.ID_HELP, 'SQL', images.application_xp_terminal.GetBitmap())
 ##        self.toolbar.AddSeparator()
-        usrtool = self.toolbar.AddLabelTool(wx.ID_PROPERTIES, 'User', images.user.GetBitmap())
+        usrtool = self.toolbar.AddLabelTool(wx.ID_PROPERTIES, 'User', images.user.GetBitmap(), shortHelp='Gestione Utente')
         self.toolbar.Realize()
 
         # Disable DB tools
@@ -98,12 +98,14 @@ class MainFrame(wx.Frame):
                 self.treeview.draw_tree()
                 self.DB_Tools(True)
                 self.toolbar.SetToolNormalBitmap(wx.ID_OK, images.database_go.GetBitmap())
+                self.toolbar.SetToolShortHelp(wx.ID_OK, 'Disconnetti')
             dlg.Destroy()
         else:
             self.db.close()
             self.treeview.draw_tree()
             self.DB_Tools(False)
             self.toolbar.SetToolNormalBitmap(wx.ID_OK, images.database_connect.GetBitmap())
+            self.toolbar.SetToolShortHelp(wx.ID_OK, 'Connetti')
 
     def OnRefresh(self, e):
         self.treeview.draw_tree()

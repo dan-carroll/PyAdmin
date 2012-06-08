@@ -14,6 +14,7 @@ import wx
 import images
 from PyAdmin_DBmanager import *
 import wx.grid
+import wx.lib.agw.balloontip as BT
 
 class FilterTable(wx.Dialog):
 
@@ -34,14 +35,15 @@ class FilterTable(wx.Dialog):
         #sizer con combo e text
         field = wx.ComboBox(self, value=self.fieldsList[0], choices=self.fieldsList, style=wx.CB_READONLY, size=(150, -1))
         operator = wx.ComboBox(self, value=self.operatorsList[0], choices=self.operatorsList, style=wx.CB_READONLY)
+        operator.Bind(wx.EVT_COMBOBOX, self.OnFilterChange)
         value = wx.TextCtrl(self)
         value.Bind(wx.EVT_TEXT, self.EnableFiltro)
-
         self.filters.append((field, operator, value))
 
         self.filterGrid.Add(field)
         self.filterGrid.Add(operator, flag=wx.LEFT, border=40)
         self.filterGrid.Add(value)
+
 
         #sizer conferma/annulla
         buttonBox = wx.BoxSizer(wx.HORIZONTAL)
@@ -67,6 +69,7 @@ class FilterTable(wx.Dialog):
         self.rimuoviFiltroButton.Bind(wx.EVT_BUTTON, self.RimuoviFiltro)
         self.okButton.Bind(wx.EVT_BUTTON, self.Conferma)
         self.cancelButton.Bind(wx.EVT_BUTTON, self.OnClose)
+
 
 
     def OnClose(self, e):
@@ -95,6 +98,7 @@ class FilterTable(wx.Dialog):
         self.Freeze()
         field = wx.ComboBox(self, value=self.fieldsList[0], choices=self.fieldsList, style=wx.CB_READONLY, size=(150, -1))
         operator = wx.ComboBox(self, value=self.operatorsList[0], choices=self.operatorsList, style=wx.CB_READONLY)
+        operator.Bind(wx.EVT_COMBOBOX, self.OnFilterChange)
         value = wx.TextCtrl(self)
         value.Bind(wx.EVT_TEXT, self.EnableFiltro)
 
@@ -123,6 +127,8 @@ class FilterTable(wx.Dialog):
         self.rimuoviFiltroButton.Enable(len(self.filters) > 1)
 
 
+    def OnFilterChange(self, e):
+        pass
 
 
 class AddRecord(wx.Dialog):
@@ -451,7 +457,7 @@ class ViewAlterTable(wx.Dialog):
             contCol = 0
             self.tableGrid.AppendRows(1)
             for field in record:
-                self.tableGrid.SetCellValue(contRow, contCol, str(field))
+                self.tableGrid.SetCellValue(contRow, contCol, unicode(str(field), "latin1"))
                 self.tableGrid.SetReadOnly(contRow, contCol)
                 contCol +=1
             contRow += 1

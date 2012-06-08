@@ -53,7 +53,7 @@ class DB_Manager():
             return "Errore PySQL: Not Connected"
         else:
             try:
-                self.cursor.execute('create database {} collate {}'.format(db_name, collation))
+                self.cursor.execute('create database {0} collate {1}'.format(db_name, collation))
             except MySQLdb.Error,e:
                 return "Errore %d: %s" % (e.args[0], e.args[1])
             else:
@@ -65,7 +65,7 @@ class DB_Manager():
             return "Errore PySQL: Not Connected"
         else:
             try:
-                self.cursor.execute('drop database {}'.format(db_name))
+                self.cursor.execute('drop database {0}'.format(db_name))
             except MySQLdb.Error,e:
                 return "Errore %d: %s" % (e.args[0], e.args[1])
             else:
@@ -155,7 +155,7 @@ class DB_Manager():
         elif col[3] == 'Unique':
             kt = 'UNIQUE'
         elif col[3] == 'Foreign Key':
-            kt = ', FOREIGN KEY ({}) REFERENCES {}({}) on delete {} on update {}'.format(name, col[7], col[8], col[9], col[10])
+            kt = ', FOREIGN KEY ({0}) REFERENCES {1}({2}) on delete {3} on update {4}'.format(name, col[7], col[8], col[9], col[10])
         # Set Auto_Increment
         ai = ''
         if col[4] == '1':
@@ -165,7 +165,7 @@ class DB_Manager():
         # Set Attribute
         attr = col[6]
 
-        return '{} {} {} {} {} {} {}'.format( name, tipo, attr, nn, default, ai,
+        return '{0} {1} {2} {3} {4} {5} {6}'.format( name, tipo, attr, nn, default, ai,
                                                 kt )
 
 
@@ -175,9 +175,9 @@ class DB_Manager():
         else:
             db_name = ''
             if db:
-                db_name = '{}.'.format(db)
+                db_name = '{0}.'.format(db)
 
-            query = 'create table {}{} ( '.format(db_name,tbl_name)
+            query = 'create table {0}{1} ( '.format(db_name,tbl_name)
             for col in cols[:-1]:
                 query += self.col_syntax(col) + ','
 
@@ -196,10 +196,10 @@ class DB_Manager():
             return "Errore PySQL: Not Connected"
         else:
             if db_name:
-                db_name = '{}.'.format(db_name)
+                db_name = '{0}.'.format(db_name)
 
             try:
-                self.cursor.execute('drop table {}{}'.format(db_name, tbl_name))
+                self.cursor.execute('drop table {0}{1}'.format(db_name, tbl_name))
             except MySQLdb.Error,e:
                 return "Errore %d: %s" % (e.args[0], e.args[1])
             else:
@@ -212,18 +212,18 @@ class DB_Manager():
 
         db = ''
         if db_name:
-            db = '{}.'.format(db_name)
+            db = '{0}.'.format(db_name)
 
         col = val = ''
         lst = zip(columns, values)
         for c, v in lst[:-1]:
             if c != '' and v != '':
-                col += '{},'.format(c)
-                val += "'{}',".format(v)
-        col += '{}'.format(columns[-1])
-        val += "'{}'".format(values[-1])
+                col += '{0},'.format(c)
+                val += "'{0}',".format(v)
+        col += '{0}'.format(columns[-1])
+        val += "'{0}'".format(values[-1])
 
-        query = 'INSERT INTO {}{}({}) VALUE ({})'.format(db, tbl_name, col, val)
+        query = 'INSERT INTO {0}{1}({2}) VALUE ({3})'.format(db, tbl_name, col, val)
 
         try:
             self.cursor.execute(query)
@@ -241,18 +241,18 @@ class DB_Manager():
 
         db = ''
         if db_name:
-            db = '{}.'.format(db_name)
+            db = '{0}.'.format(db_name)
 
         n_val = o_val = ''
         t = zip(columns, old_values, new_values)
         for c, o, n in t[:-1]:
             if c != '' and o != '' and n != '':
-                n_val += "{} = '{}', ".format(c, n)
-                o_val += "{} = '{}' AND ".format(c, o)
-        n_val += "{} = '{}'".format(columns[-1], new_values[-1])
-        o_val += "{} = '{}'".format(columns[-1], old_values[-1])
+                n_val += "{0} = '{1}', ".format(c, n)
+                o_val += "{0} = '{1}' AND ".format(c, o)
+        n_val += "{0} = '{1}'".format(columns[-1], new_values[-1])
+        o_val += "{0} = '{1}'".format(columns[-1], old_values[-1])
 
-        query = 'UPDATE {}{} SET {} WHERE {}'.format(db, tbl_name, n_val, o_val)
+        query = 'UPDATE {0}{1} SET {2} WHERE {3}'.format(db, tbl_name, n_val, o_val)
 
         try:
             self.cursor.execute(query)
@@ -270,15 +270,15 @@ class DB_Manager():
 
         db = ''
         if db_name:
-            db = '{}.'.format(db_name)
+            db = '{0}.'.format(db_name)
 
         cond = ''
         t = zip(columns, values)
         for c, v in t[:-1]:
-            cond += "{} = '{}' AND ".format(c, v)
-        cond += "{} = '{}'".format(columns[-1], values[-1])
+            cond += "{0} = '{1}' AND ".format(c, v)
+        cond += "{0} = '{1}'".format(columns[-1], values[-1])
 
-        query = 'DELETE FROM {}{} WHERE {}'.format(db, tbl_name, cond)
+        query = 'DELETE FROM {0}{1} WHERE {2}'.format(db, tbl_name, cond)
 
         try:
             self.cursor.execute(query)
@@ -298,16 +298,16 @@ class DB_Manager():
                 self.set_db(db)
 
             if where:
-                wh = 'where {}'.format(where)
+                wh = 'where {0}'.format(where)
             else:
                 wh = ''
 
             if limit:
-                lm = 'limit {}'.format(limit)
+                lm = 'limit {0}'.format(limit)
             else:
                 lm = ''
 
-            cmd = 'select {} from {} {} {}'.format(columns, tbl_name, wh, lm)
+            cmd = 'select {0} from {1} {2} {3}'.format(columns, tbl_name, wh, lm)
 
             try:
                 self.cursor.execute(cmd)
@@ -325,7 +325,7 @@ class DB_Manager():
             self.set_db(db_name)
 
         try:
-            self.cursor.execute('SELECT COUNT(*) FROM {}'.format(tbl_name))
+            self.cursor.execute('SELECT COUNT(*) FROM {0}'.format(tbl_name))
         except MySQLdb.Error,e:
             return "Errore %d: %s" % (e.args[0], e.args[1])
         else:
@@ -371,13 +371,13 @@ class DB_Manager():
         if not pw:
             return "Errore 1048: Column 'password' cannot be null"
 
-        w = "IDENTIFIED BY '{}'".format(pw)
+        w = "IDENTIFIED BY '{0}'".format(pw)
 
-        query_str = "{} {} ON {}.{} {} '{}'@'{}'".format(t, p, db_name, tbl_name,
+        query_str = "{0} {1} ON {2}.{3} {4} '{5}'@'{6}'".format(t, p, db_name, tbl_name,
                                                          t2, user, self.host)
 
         try:
-            self.cursor.execute("CREATE USER '{}'@'{}' {}".format(user, self.host, w))
+            self.cursor.execute("CREATE USER '{0}'@'{1}' {2}".format(user, self.host, w))
         except MySQLdb.Error,e:
             if e.args[0] != 1396:
                 return "Errore %d: %s" % (e.args[0], e.args[1])
@@ -464,7 +464,7 @@ def main():
 
 ##    print test.get_tbl_schema('prova','biblioteca')
 ##
-    test.set_db('groupon')
+    test.set_db('db1')
 
 ##    print test.query('city','id',limit='0, 3')
 ##    print test.query('city','id',limit='3, 3')

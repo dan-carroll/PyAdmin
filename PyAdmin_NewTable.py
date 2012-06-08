@@ -237,8 +237,8 @@ class AddField(wx.Dialog):
         #setto dimensione tipo
         ln = ''
         if self.dimensionText.IsEnabled():
-            ln = '({})'.format(self.dimensionText.GetValue())
-        tipo = "{}{}".format(self.typeCombo.GetValue(), ln)
+            ln = '({0})'.format(self.dimensionText.GetValue())
+        tipo = "{0}{1}".format(self.typeCombo.GetValue(), ln)
 
         campo = (self.nameTxt.GetValue(), tipo, notnullValue,
                  self.chiave, aiValue, self.defaultText.GetValue(), self.attrCombo.GetValue(),

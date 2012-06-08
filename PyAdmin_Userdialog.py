@@ -74,11 +74,13 @@ class Userdialog(wx.Dialog):
 
         # Layout
         mainBox.Add(gridBox, flag=wx.CENTER|wx.TOP, border=10)
-        mainBox.Add(sizer, flag=wx.CENTER|wx.TOP|wx.BOTTOM, border=10)
+        mainBox.Add(sizer, flag=wx.CENTER|wx.ALL, border=10)
         mainBox.Add(combBox, flag=wx.CENTER|wx.BOTTOM, border=10)
-        mainBox.Add(btnsBox, flag=wx.CENTER|wx.TOP, border=10)
+        mainBox.Add(btnsBox, flag=wx.CENTER|wx.TOP|wx.BOTTOM, border=10)
 
         self.SetSizer(mainBox)
+        mainBox.Layout()
+        self.Fit()
 
         # Events
         self.Bind(wx.EVT_TEXT,   self.OnCheck, self.userTxt)
